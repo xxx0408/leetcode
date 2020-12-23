@@ -1,0 +1,88 @@
+# 给定一个仅包含 0 和 1 、大小为 rows x cols 的二维二进制矩阵，
+# 找出只包含 1 的最大矩形，并返回其面积。
+#
+#
+#
+#  示例 1：
+#
+#
+# 输入：matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"]
+# ,["1","0","0","1","0"]]
+# 输出：6
+# 解释：最大矩形如上图所示。
+#
+#
+#  示例 2：
+#
+#
+# 输入：matrix = []
+# 输出：0
+#
+#
+#  示例 3：
+#
+#
+# 输入：matrix = [["0"]]
+# 输出：0
+#
+#
+#  示例 4：
+#
+#
+# 输入：matrix = [["1"]]
+# 输出：1
+#
+#
+#  示例 5：
+#
+#
+# 输入：matrix = [["0","0"]]
+# 输出：0
+#
+#
+#
+#
+#  提示：
+#
+#
+#  rows == matrix.length
+#  cols == matrix[0].length
+#  0 <= row, cols <= 200
+#  matrix[i][j] 为 '0' 或 '1'
+
+
+# leetcode submit region begin(Prohibit modification and deletion)
+from typing import List
+
+
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        n = len(matrix[0])
+        heights = [0] * (n + 1)
+        max_m = 0
+        for row in matrix:
+            for i in range(n):
+                heights[i] = heights[i] + 1 if row[i] == '1' else 0
+            i = 0
+            stack = []
+            while i < len(heights):
+                if len(stack) == 0 or heights[stack[-1]] <= heights[i]:
+                    stack.append(i)
+                    i = i + 1
+                else:
+                    while stack != [] and heights[stack[-1]] > heights[i]:
+                        a = stack.pop()
+                        if stack == []:
+                            max_m = max(max_m, i * heights[a])
+                        else:
+                            max_m = max(max_m, (i - stack[-1] - 1) * heights[a])
+        return max_m
+
+
+if __name__ == "__main__":
+    r = Solution()
+    rs = r.maximalRectangle(matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"] ,["1","0","0","1","0"]])
+    print(rs)
+# leetcode submit region end(Prohibit modification and deletion)
