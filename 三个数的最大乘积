@@ -1,0 +1,24 @@
+#
+# 输入: [1,2,3,4]
+# 输出: 24
+#
+
+
+# leetcode submit region begin(Prohibit modification and deletion)
+from typing import List
+
+
+class Solution:
+    def maximumProduct(self, nums: List[int]) -> int:
+        nums.sort()
+        right = nums[-3] * nums[-2] * nums[-1]
+        left = nums[0] * nums[1] * nums[-1]
+        return max(left, right)
+
+
+if __name__ == "__main__":
+    r = Solution()
+    rs = r.maximumProduct([1, 5, 1, 5, 2, 3, 4])
+    print(rs)
+
+# leetcode submit region end(Prohibit modification and deletion)
