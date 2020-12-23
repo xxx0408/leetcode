@@ -1,0 +1,46 @@
+# 给定一个 24 小时制（小时:分钟 "HH:MM"）的时间列表，找出列表中任意两个时间的最小时间差并以分钟数表示。
+#
+#
+#
+#  示例 1：
+#
+#
+# 输入：timePoints = ["23:59","00:00"]
+# 输出：1
+#
+#
+#  示例 2：
+#
+#
+# 输入：timePoints = ["00:00","23:59","00:00"]
+# 输出：0
+#
+#
+#
+#
+
+# leetcode submit region begin(Prohibit modification and deletion)
+from typing import List
+
+
+class Solution:
+    def findMinDifference(self, timePoints: 'List[str]') -> 'int':
+        n = len(timePoints)
+        res = []
+        for i in range(n):
+            res.append(int(timePoints[i][0:2])*60+int(timePoints[i][3:5]))
+        res.sort()
+        tmp = res[0]+24*60-res[n-1]
+        for i in range(1, n):
+            tmp = min(tmp, res[i]-res[i-1])
+        return tmp
+        timePoints = map(convert, timePoints)
+        timePoints.sort()
+        return min((y - x) % (24 * 60) for x, y in zip(timePoints, timePoints[1:] + timePoints[:1]))
+
+
+if __name__ == "__main__":
+    r = Solution()
+    rs = r.findMinDifference(timePoints = ["23:59","00:00"])
+    print(rs)
+# leetcode submit region end(Prohibit modification and deletion)
